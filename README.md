@@ -9,3 +9,7 @@
 - `node-sass (optional)`
 - `lodash (optional)`
 - `eslint / tslint (optional)` : *DONE*
+
+## API
+
+- https://docs.thecatapi.com/
