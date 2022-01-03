@@ -9,7 +9,7 @@ const fetchCatBreeds = () => {
     });
 };
 
-const fetchCatsByBreed = (breed_id, page = 1, limit = 10) => {
+const fetchCatsByBreed = (breed_id, limit = 10, page = 1) => {
     const breedUrl = `https://api.thecatapi.com/v1/images/search?page=${page}&limit=${limit}&breed_id=${breed_id}`;
 
     return axios({

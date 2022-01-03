@@ -5,12 +5,25 @@ import { fetchCatBreeds, fetchCatsByBreed } from '../../function/catAPI';
 function Homepage() {
     const [breeds, setBreeds] = useState([]);
     const [sBreeds, setSBreeds] = useState([]);
+    const [limit, setLimit] = useState(10);
+    const [currentBreedId, setCurrentBreedId] = useState(null);
 
     const handleChange = (e) => {
         const breed_id = e.target.value;
         console.log(breed_id);
-        fetchCatsByBreed(breed_id).then(b => {
+        setCurrentBreedId(breed_id);
+        setLimit(10);
+        fetchCatsByBreed(breed_id, limit).then(b => {
             setSBreeds(b.data);
+        });
+    };
+
+    const handleIncreaseLimit = () => {
+        const newLimit = limit + 10;
+        
+        fetchCatsByBreed(currentBreedId, newLimit).then(b => {
+            setSBreeds(b.data);
+            setLimit(newLimit);
         });
     };
     
@@ -38,7 +51,7 @@ function Homepage() {
                     </Form.Select>
                 </Col>
             </Row>
-            <Row>{sBreeds.map(b => {
+            {sBreeds.length ? <Row>{sBreeds.map(b => {
                 return <Col key={b.id} className="p-2" md={3}>
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src={b.url} />
@@ -49,7 +62,8 @@ function Homepage() {
                         </Card.Body>
                     </Card>
                 </Col>;
-            })}</Row>
+            })}</Row>: <p className="mt-3">No cats available</p>}
+            <Button variant="success" onClick={handleIncreaseLimit} disabled={sBreeds.length < limit ? true : false } >Load More</Button>
         </>
     );
 }
