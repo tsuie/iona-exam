@@ -8,4 +8,14 @@ const fetchCatBreeds = () => {
         method: 'GET'
     });
 };
-export default fetchCatBreeds;
+
+const fetchCatsByBreed = (breed_id, page = 1, limit = 10) => {
+    const breedUrl = `https://api.thecatapi.com/v1/images/search?page=${page}&limit=${limit}&breed_id=${breed_id}`;
+
+    return axios({
+        url: breedUrl,
+        method: 'GET'
+    });
+};
+
+export { fetchCatBreeds, fetchCatsByBreed };
