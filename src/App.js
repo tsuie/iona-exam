@@ -1,9 +1,8 @@
-import './App.css';
+import Homepage from './components/Homepage';
+import {Container} from 'react-bootstrap';
 
 function App() {
-    return (
-        'Welcome'
-    );
+    return <Container><Homepage /></Container>;
 }
 
 export default App;
