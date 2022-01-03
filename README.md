@@ -2,8 +2,8 @@
 
 ## LIBRARIES TO USE
 
-- `react-router-dom` 
-- `react-bootstrap`
+- `react-router-dom` : *DONE*
+- `react-bootstrap` : *DONE*
 - `axios (or browser's fetch API)` : *DONE*
 - `react-redux + redux-saga (optional)`
 - `node-sass (optional)`
