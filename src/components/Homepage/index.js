@@ -1,12 +1,14 @@
 import { Form, Row, Col, Card, Button } from 'react-bootstrap';
 import { useState, useEffect} from 'react';
 import { fetchCatBreeds, fetchCatsByBreed } from '../../function/catAPI';
+import { useLocation } from 'react-router-dom';
 
 function Homepage() {
+    const breedId = new URLSearchParams(useLocation().search).get('breed') || null;
     const [breeds, setBreeds] = useState([]);
     const [sBreeds, setSBreeds] = useState([]);
     const [limit, setLimit] = useState(10);
-    const [currentBreedId, setCurrentBreedId] = useState(null);
+    const [currentBreedId, setCurrentBreedId] = useState(breedId);
 
     const handleChange = (e) => {
         const breed_id = e.target.value;
@@ -28,10 +30,17 @@ function Homepage() {
     };
     
     useEffect(() => {
-        console.log('Loading Breeds');
+        console.log('Loading Breeds...', breedId);
         fetchCatBreeds().then(b => {
             setBreeds(b.data);
         });
+        if(breedId) {
+            setCurrentBreedId(breedId);
+            setLimit(10);
+            fetchCatsByBreed(breedId, limit).then(b => {
+                setSBreeds(b.data);
+            });
+        }
     }, []);
 
     return (
@@ -42,11 +51,12 @@ function Homepage() {
                 <Col xs={3}>
                     <Form.Select 
                         onChange={handleChange}
+                        value={currentBreedId}
                     >
                         <option>Select Breed</option>
                         {/* {JSON.stringify(breeds)} */}
                         {breeds.map(breed => {
-                            return <option key={breed.id} value={breed.id}>{breed.name}</option>;
+                            return <option key={breed.id} value={breed.id} >{breed.name}</option>;
                         })}
                     </Form.Select>
                 </Col>
@@ -57,7 +67,7 @@ function Homepage() {
                         <Card.Img variant="top" src={b.url} />
                         <Card.Body>
                             <div className="d-grid gap-2">
-                                <Button variant="primary">View Details</Button>
+                                <Button variant="primary" href={'/' + b.id}>View Details</Button>
                             </div>
                         </Card.Body>
                     </Card>
